@@ -1,0 +1,6 @@
+# No, you can't have my wifi password
+config.h
+
+# These don't need to be uploaded
+.vscode/
+build

@@ -1,0 +1,13 @@
+/************************ Adafruit IO Config *******************************/
+#define IO_USERNAME "adafruit username"
+#define IO_KEY "aio_adafruit_key"
+#define INPUT_FEED "adafruit-input-feed-name"
+#define OUTPUT_FEED "adafruit-output-feed-name"
+
+/******************************* WiFi **************************************/
+#define WIFI_SSID "wifi name"
+#define WIFI_PASS "wifi pass"
+
+/******************************* PINS **************************************/
+#define LED_PIN pin_id
+#define BUTTON_PIN pin_id
