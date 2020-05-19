@@ -1,12 +1,6 @@
 /*
  * iSTEM project.
  * 
- * GROUP MEMBERS
- *  - Aiden G
- *  - Dana S
- *  - Bianca C
- *  - Shravanti HS
- *  
  *  CONFIG FILE
  *  A config file can be located in the working directory, "config.h.example".
  *  Remove the ".example" suffix and replace the values inside with your own
