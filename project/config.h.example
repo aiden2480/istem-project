@@ -8,6 +8,10 @@
 #define WIFI_SSID "wifi name"
 #define WIFI_PASS "wifi pass"
 
+/******************************* TUNE **************************************/
+#define PLAY_TUNE bool_play_tune_on_message
+
 /******************************* PINS **************************************/
 #define LED_PIN pin_id
 #define BUTTON_PIN pin_id
+#define PIEZO_PIN pin_id
