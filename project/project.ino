@@ -20,6 +20,19 @@ AdafruitIO_Feed *output = io.feed(OUTPUT_FEED);
 bool current = false;
 bool last = false;
 
+// Melody data
+unsigned long lastBuzz = 0;
+int melody[9][2] = {
+    {NOTE_C4, 4},
+    {NOTE_G3, 8},
+    {NOTE_G3, 8},
+    {NOTE_A3, 4},
+    {NOTE_G3, 4},
+    {0, 4},
+    {NOTE_B3, 4},
+    {NOTE_C4, 4}
+};
+
 // Main functions
 void setup() {
     // Initialise pins
@@ -47,9 +60,11 @@ void setup() {
 }
 
 void loop() {
-    // Let Adafruit do its connection behind-the-scenes stuff
     io.run();
+    handleOutput();
+}
 
+void handleOutput() {
     // Read the current state of the button
     if (digitalRead(BUTTON_PIN) == LOW)
         current = true;
@@ -60,7 +75,7 @@ void loop() {
     if (current == last)
         return;
 
-    // save the current state to the 'digital' feed on adafruit io
+    // Save the current state on Adafruit
     Serial.print("PUSH -> ");
     if (current)
         Serial.println("HIGH");
@@ -82,24 +97,34 @@ void handleInput(AdafruitIO_Data *data) {
     // Write input to LED
     digitalWrite(LED_PIN, data -> toPinLevel());
     if (PLAY_TUNE) {
-        playTune();
+        handlePiezo();
     }
 }
 
-void playTune() {
-    // Melody
-    int melody[] = {NOTE_C4, NOTE_G3, NOTE_G3, NOTE_A3, NOTE_G3, 0, NOTE_B3, NOTE_C4};
-
-    // Note durations
-    int noteDurations[] = {
-        4, 8, 8, 4, 4, 4, 4, 4
-    };
-
+void handlePiezo() {
+    lastBuzz = millis();
+    unsigned long thisBuzz = lastBuzz;
+    
     for (int thisNote = 0; thisNote < 8; thisNote++) {
-        int noteDuration = 1000 / noteDurations[thisNote];
-        tone(PIEZO_PIN, melody[thisNote], noteDuration);
+        // Check if a new tune has been triggered since this one started
+        if (lastBuzz != thisBuzz) {return;}
+
+        // Calculate note duration and play note
+        int noteDuration = 1000 / melody[thisNote][1];
+        tone(PIEZO_PIN, melody[thisNote][0], noteDuration);
+
+        // Add a delay between notes to distinguish them
         int pauseBetweenNotes = noteDuration * 1.30;
-        delay(pauseBetweenNotes);
+        unsigned long startMillis = millis();
+        
+        // Simulate `loop` function
+        io.run();
+        handleOutput();
+
+        // Calculate remaining delay required
+        int delayRequired = pauseBetweenNotes-(millis()-startMillis);
+        if (delayRequired >= 0) {delay(delayRequired);}
+
         noTone(PIEZO_PIN);
     }
 }
