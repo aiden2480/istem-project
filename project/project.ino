@@ -22,7 +22,7 @@ bool last = false;
 
 // Melody data
 unsigned long lastBuzz = 0;
-int melody[9][2] = {
+int melody[][2] = {
     {NOTE_C4, 4},
     {NOTE_G3, 8},
     {NOTE_G3, 8},
@@ -104,8 +104,9 @@ void handleInput(AdafruitIO_Data *data) {
 void handlePiezo() {
     lastBuzz = millis();
     unsigned long thisBuzz = lastBuzz;
+    int length = sizeof(melody)/sizeof(melody[0]);
     
-    for (int thisNote = 0; thisNote < 8; thisNote++) {
+    for (int thisNote = 0; thisNote < length; thisNote++) {
         // Check if a new tune has been triggered since this one started
         if (lastBuzz != thisBuzz) {return;}
 
