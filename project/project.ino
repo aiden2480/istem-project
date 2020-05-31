@@ -55,8 +55,9 @@ void setup() {
     Serial.println();
     Serial.println(io.statusText());
 
-    // Fetch the current status
+    // Update internal and Adafruit
     input -> get();
+    output -> save(digitalRead(BUTTON_PIN) == LOW);
 }
 
 void loop() {
